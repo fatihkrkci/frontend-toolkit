@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Border Radius Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f9f9f9;
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .preview {
+            width: 200px;
+            height: 200px;
+            background: #fff;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            transition: border-radius 0.3s;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        .controls {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            font-family: monospace;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 40px 0;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .bmc-button img {
+            transition: transform 0.3s ease;
+            margin-top: 12px;
+            border-radius: 8px;
+        }
+
+        .bmc-button:hover img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Border Radius Generator</h1>
+
+    <div class="preview" id="boxPreview"></div>
+
+    <div class="controls">
+        <label>Top Left Radius: <input type="range" id="topLeft" min="0" max="100" value="10"></label><br>
+        <label>Top Right Radius: <input type="range" id="topRight" min="0" max="100" value="10"></label><br>
+        <label>Bottom Right Radius: <input type="range" id="bottomRight" min="0" max="100" value="10"></label><br>
+        <label>Bottom Left Radius: <input type="range" id="bottomLeft" min="0" max="100" value="10"></label>
+    </div>
+
+    <textarea id="output" rows="3" readonly></textarea>
+    <button onclick="copyCode()">Copy Code</button>
+
+    <footer>
+        <p>If this tool helped you, consider supporting me:</p>
+        <a href="https://www.buymeacoffee.com/fatihkrkci" target="_blank" class="bmc-button">
+            <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&slug=fatihkrkci&button_colour=5F7FFF&font_colour=ffffff&font_family=Arial&outline_colour=000000&coffee_colour=FFDD00"
+                alt="Buy Me a Coffee">
+        </a>
+    </footer>
+
+    <script>
+        const box = document.getElementById("boxPreview");
+        const output = document.getElementById("output");
+        const topLeft = document.getElementById("topLeft");
+        const topRight = document.getElementById("topRight");
+        const bottomRight = document.getElementById("bottomRight");
+        const bottomLeft = document.getElementById("bottomLeft");
+
+        function updateBorderRadius() {
+            const tl = topLeft.value + "px";
+            const tr = topRight.value + "px";
+            const br = bottomRight.value + "px";
+            const bl = bottomLeft.value + "px";
+
+            const value = `${tl} ${tr} ${br} ${bl}`;
+            box.style.borderRadius = value;
+            output.value = `border-radius: ${value};`;
+        }
+
+        function copyCode() {
+            output.select();
+            document.execCommand("copy");
+            alert("Copied to clipboard!");
+        }
+
+        [topLeft, topRight, bottomRight, bottomLeft].forEach(input => input.addEventListener("input", updateBorderRadius));
+        updateBorderRadius();
+    </script>
+</body>
+
+</html>
