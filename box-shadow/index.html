@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Box Shadow Generator by fatihkrkci</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .preview {
+      width: 200px;
+      height: 200px;
+      background: #fff;
+      margin: 20px auto;
+      border: 1px solid #ccc;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0;
+    }
+
+    textarea {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Box Shadow Generator</h1>
+
+  <label>X Offset: <input type="range" id="xOffset" min="-50" max="50" value="10"></label>
+  <label>Y Offset: <input type="range" id="yOffset" min="-50" max="50" value="10"></label>
+  <label>Blur Radius: <input type="range" id="blur" min="0" max="100" value="20"></label>
+  <label>Shadow Color: <input type="color" id="color" value="#888888"></label>
+
+  <div class="preview" id="boxPreview"></div>
+
+  <textarea id="output" rows="2" readonly></textarea>
+  <button onclick="copyCode()">Copy Code</button>
+
+  <script>
+    const x = document.getElementById("xOffset");
+    const y = document.getElementById("yOffset");
+    const blur = document.getElementById("blur");
+    const color = document.getElementById("color");
+    const box = document.getElementById("boxPreview");
+    const output = document.getElementById("output");
+
+    function updateShadow() {
+      const value = `${x.value}px ${y.value}px ${blur.value}px ${color.value}`;
+      box.style.boxShadow = value;
+      output.value = `box-shadow: ${value};`;
+    }
+
+    function copyCode() {
+      output.select();
+      document.execCommand("copy");
+      alert("Copied to clipboard!");
+    }
+
+    [x, y, blur, color].forEach(input => input.addEventListener("input", updateShadow));
+    updateShadow();
+  </script>
+</body>
+</html>
