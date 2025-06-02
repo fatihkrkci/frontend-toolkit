@@ -1,22 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Box Shadow Generator by fatihkrkci</title>
+  <title>Box Shadow Generator</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f9f9f9;
-      max-width: 600px;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      max-width: 800px;
       margin: auto;
-    }
-
-    h1 {
+      padding: 30px;
       text-align: center;
     }
 
+    h1 {
+      margin-bottom: 10px;
+      font-size: 28px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 600;
+      text-align: left;
+      color: #444;
+    }
+
+    input[type="range"],
+    input[type="color"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
     .preview {
+      margin-top: 40px;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    #boxPreview {
       width: 200px;
       height: 200px;
       background: #fff;
@@ -24,23 +58,23 @@
       border: 1px solid #ccc;
     }
 
-    label {
-      display: block;
-      margin: 10px 0;
-    }
-
-    textarea {
-      width: 100%;
-      margin-top: 10px;
-    }
-
     button {
-      margin-top: 10px;
       padding: 8px 16px;
+      margin-top: 10px;
       cursor: pointer;
+      border: none;
+      background-color: #5f7fff;
+      color: white;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.3s ease;
     }
 
-    .footer {
+    button:hover {
+      background-color: #405dd5;
+    }
+
+    footer {
       margin-top: 60px;
       padding: 40px 0;
       text-align: center;
@@ -57,20 +91,71 @@
     .bmc-button:hover img {
       transform: scale(1.05);
     }
+
+    .color-picker-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      background: #fff;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .color-picker-wrapper input[type="color"] {
+      border: none;
+      background: transparent;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .color-preview-label {
+      font-size: 16px;
+      color: #555;
+    }
   </style>
 </head>
+
 <body>
   <h1>Box Shadow Generator</h1>
+  <p>Generate CSS box-shadow styles visually</p>
 
-  <label>X Offset: <input type="range" id="xOffset" min="-50" max="50" value="10"></label>
-  <label>Y Offset: <input type="range" id="yOffset" min="-50" max="50" value="10"></label>
-  <label>Blur Radius: <input type="range" id="blur" min="0" max="100" value="20"></label>
-  <label>Shadow Color: <input type="color" id="color" value="#888888"></label>
+  <label for="xOffset">X Offset:</label>
+  <input type="range" id="xOffset" min="-50" max="50" value="10">
 
-  <div class="preview" id="boxPreview"></div>
+  <label for="yOffset">Y Offset:</label>
+  <input type="range" id="yOffset" min="-50" max="50" value="10">
+
+  <label for="blur">Blur Radius:</label>
+  <input type="range" id="blur" min="0" max="100" value="20">
+
+  <label for="color">Shadow Color:</label>
+  <div class="color-picker-wrapper">
+    <input type="color" id="color" value="#888888">
+    <span class="color-preview-label">Choose a color</span>
+  </div>
+
+
+  <div class="preview">
+    <div id="boxPreview"></div>
+  </div>
 
   <textarea id="output" rows="2" readonly></textarea>
-  <button onclick="copyCode()">Copy Code</button>
+  <button onclick="copyCode()">📋 Copy Code</button>
+
+  <footer>
+    <p>If this tool helped you, consider supporting me:</p>
+    <a href="https://www.buymeacoffee.com/fatihkrkci" target="_blank" class="bmc-button">
+      <img
+        src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&slug=fatihkrkci&button_colour=5F7FFF&font_colour=ffffff&font_family=Arial&outline_colour=000000&coffee_colour=FFDD00"
+        alt="Buy Me a Coffee">
+    </a>
+  </footer>
 
   <script>
     const x = document.getElementById("xOffset");
@@ -95,12 +180,6 @@
     [x, y, blur, color].forEach(input => input.addEventListener("input", updateShadow));
     updateShadow();
   </script>
-
-  <footer class="footer">
-    <p>If this tool helped you, consider supporting me:</p>
-    <a href="https://www.buymeacoffee.com/fatihkrkci" target="_blank" class="bmc-button">
-      <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&slug=fatihkrkci&button_colour=5F7FFF&font_colour=ffffff&font_family=Arial&outline_colour=000000&coffee_colour=FFDD00" alt="Buy Me a Coffee">
-    </a>
-  </footer>
 </body>
+
 </html>

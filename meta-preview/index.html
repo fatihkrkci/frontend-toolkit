@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Meta Tag Preview Tool</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: 600;
+            text-align: left;
+            color: #444;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .preview {
+            margin-top: 40px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        .preview h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .preview p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #5f7fff;
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #405dd5;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 40px 0;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .bmc-button img {
+            transition: transform 0.3s ease;
+            margin-top: 12px;
+            border-radius: 8px;
+        }
+
+        .bmc-button:hover img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Meta Tag Preview Tool</h1>
+    <p>Preview how your page will look on search engines & social media</p>
+
+    <label for="title">Title</label>
+    <input id="title" type="text" placeholder="Enter meta title..." oninput="updatePreview()">
+
+    <label for="description">Description</label>
+    <textarea id="description" rows="3" placeholder="Enter meta description..." oninput="updatePreview()"></textarea>
+
+    <label for="image">Image URL</label>
+    <input id="image" type="text" placeholder="Paste image URL..." oninput="updatePreview()">
+
+    <div class="preview" id="previewBox">
+        <img id="previewImage" src="" alt="Preview image" style="display: none;">
+        <h2 id="previewTitle">Meta Title will appear here</h2>
+        <p id="previewDescription">Meta description will appear here.</p>
+    </div>
+
+    <div style="margin-top: 30px; text-align: left;">
+        <h3>Generated Meta Tags</h3>
+        <textarea id="metaCode" rows="9" readonly
+            style="width:100%; font-family: monospace; padding:10px; font-size:14px;"></textarea>
+        <button onclick="copyMeta()">📋 Copy Meta Tags</button>
+    </div>
+
+    <footer>
+        <p>If this tool helped you, consider supporting me:</p>
+        <a href="https://www.buymeacoffee.com/fatihkrkci" target="_blank" class="bmc-button">
+            <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&slug=fatihkrkci&button_colour=5F7FFF&font_colour=ffffff&font_family=Arial&outline_colour=000000&coffee_colour=FFDD00"
+                alt="Buy Me a Coffee">
+        </a>
+    </footer>
+
+    <script>
+        function updatePreview() {
+            const title = document.getElementById('title').value;
+            const desc = document.getElementById('description').value;
+            const img = document.getElementById('image').value;
+
+            document.getElementById('previewTitle').textContent = title || 'Meta Title will appear here';
+            document.getElementById('previewDescription').textContent = desc || 'Meta description will appear here.';
+
+            const imgTag = document.getElementById('previewImage');
+            if (img) {
+                imgTag.src = img;
+                imgTag.style.display = 'block';
+            } else {
+                imgTag.style.display = 'none';
+            }
+
+            const meta = `
+<title>${title}</title>
+<meta name="description" content="${desc}">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:image" content="${img}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${desc}">
+<meta name="twitter:image" content="${img}">
+`.trim();
+
+            document.getElementById("metaCode").value = meta;
+        }
+
+        function copyMeta() {
+            const textarea = document.getElementById("metaCode");
+            textarea.select();
+            document.execCommand("copy");
+            alert("Meta tags copied to clipboard!");
+        }
+    </script>
+</body>
+
+</html>

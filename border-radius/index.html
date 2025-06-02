@@ -6,47 +6,71 @@
     <title>Border Radius Generator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background: #f9f9f9;
-            max-width: 600px;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            max-width: 800px;
             margin: auto;
+            padding: 30px;
             text-align: center;
         }
 
         h1 {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: 600;
+            text-align: left;
+            color: #444;
+        }
+
+        input[type="range"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
         }
 
         .preview {
+            margin-top: 40px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        #boxPreview {
             width: 200px;
             height: 200px;
             background: #fff;
             margin: 20px auto;
             border: 1px solid #ccc;
-            transition: border-radius 0.3s;
-        }
-
-        input[type="range"] {
-            width: 100%;
-        }
-
-        .controls {
-            text-align: left;
-            margin-top: 20px;
-        }
-
-        textarea {
-            width: 100%;
-            margin-top: 20px;
-            padding: 10px;
-            font-family: monospace;
         }
 
         button {
-            margin-top: 10px;
             padding: 8px 16px;
+            margin-top: 10px;
             cursor: pointer;
+            border: none;
+            background-color: #5f7fff;
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #405dd5;
         }
 
         footer {
@@ -71,18 +95,26 @@
 
 <body>
     <h1>Border Radius Generator</h1>
+    <p>Adjust corners and generate CSS border-radius values</p>
 
-    <div class="preview" id="boxPreview"></div>
+    <label for="topLeft">Top Left Radius:</label>
+    <input type="range" id="topLeft" min="0" max="100" value="10">
 
-    <div class="controls">
-        <label>Top Left Radius: <input type="range" id="topLeft" min="0" max="100" value="10"></label><br>
-        <label>Top Right Radius: <input type="range" id="topRight" min="0" max="100" value="10"></label><br>
-        <label>Bottom Right Radius: <input type="range" id="bottomRight" min="0" max="100" value="10"></label><br>
-        <label>Bottom Left Radius: <input type="range" id="bottomLeft" min="0" max="100" value="10"></label>
+    <label for="topRight">Top Right Radius:</label>
+    <input type="range" id="topRight" min="0" max="100" value="10">
+
+    <label for="bottomRight">Bottom Right Radius:</label>
+    <input type="range" id="bottomRight" min="0" max="100" value="10">
+
+    <label for="bottomLeft">Bottom Left Radius:</label>
+    <input type="range" id="bottomLeft" min="0" max="100" value="10">
+
+    <div class="preview">
+        <div id="boxPreview"></div>
     </div>
 
     <textarea id="output" rows="3" readonly></textarea>
-    <button onclick="copyCode()">Copy Code</button>
+    <button onclick="copyCode()">📋 Copy Code</button>
 
     <footer>
         <p>If this tool helped you, consider supporting me:</p>
@@ -117,7 +149,10 @@
             alert("Copied to clipboard!");
         }
 
-        [topLeft, topRight, bottomRight, bottomLeft].forEach(input => input.addEventListener("input", updateBorderRadius));
+        [topLeft, topRight, bottomRight, bottomLeft].forEach(input =>
+            input.addEventListener("input", updateBorderRadius)
+        );
+
         updateBorderRadius();
     </script>
 </body>
