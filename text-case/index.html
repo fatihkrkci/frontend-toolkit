@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Text Case Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f2f2f2;
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .buttons button {
+            padding: 10px 16px;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ccc;
+            font-family: monospace;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding: 40px 0;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .bmc-button img {
+            transition: transform 0.3s ease;
+            margin-top: 12px;
+            border-radius: 8px;
+        }
+
+        .bmc-button:hover img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Text Case Converter</h1>
+    <textarea id="inputText" placeholder="Type or paste your text here..."></textarea>
+
+    <div class="buttons">
+        <button onclick="convert('upper')">UPPERCASE</button>
+        <button onclick="convert('lower')">lowercase</button>
+        <button onclick="convert('camel')">camelCase</button>
+        <button onclick="convert('kebab')">kebab-case</button>
+        <button onclick="convert('snake')">snake_case</button>
+        <button onclick="convert('pascal')">PascalCase</button>
+    </div>
+
+    <div id="output"></div>
+
+    <footer>
+        <p>If this tool helped you, consider supporting me:</p>
+        <a href="https://www.buymeacoffee.com/fatihkrkci" target="_blank" class="bmc-button">
+            <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&slug=fatihkrkci&button_colour=5F7FFF&font_colour=ffffff&font_family=Arial&outline_colour=000000&coffee_colour=FFDD00"
+                alt="Buy Me a Coffee">
+        </a>
+    </footer>
+
+    <script>
+        function convert(type) {
+            const input = document.getElementById("inputText").value.trim();
+            let result = "";
+
+            const words = input
+                .replace(/[_\-]/g, " ")
+                .replace(/([a-z])([A-Z])/g, "$1 $2")
+                .toLowerCase()
+                .split(/\s+/);
+
+            switch (type) {
+                case "upper":
+                    result = input.toUpperCase();
+                    break;
+                case "lower":
+                    result = input.toLowerCase();
+                    break;
+                case "camel":
+                    result = words.map((w, i) => i === 0 ? w : w.charAt(0).toUpperCase() + w.slice(1)).join("");
+                    break;
+                case "pascal":
+                    result = words.map(w => w.charAt(0).toUpperCase() + w.slice(1)).join("");
+                    break;
+                case "kebab":
+                    result = words.join("-").toLowerCase();
+                    break;
+                case "snake":
+                    result = words.join("_").toLowerCase();
+                    break;
+            }
+
+            document.getElementById("output").innerText = result;
+        }
+    </script>
+</body>
+
+</html>
