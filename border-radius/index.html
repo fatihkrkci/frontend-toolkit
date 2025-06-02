@@ -1,23 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <title>Border Radius Generator</title>
+    <meta name="description" content="Easily generate border-radius CSS values with visual preview.">
+    <link rel="icon" type="image/png" href="../favicon.png">
     <style>
+        :root {
+            --bg-color-light: #f0f2f5;
+            --text-color-light: #333;
+            --card-bg-light: #fff;
+            --button-bg-light: #5f7fff;
+            --button-hover-light: #405dd5;
+
+            --bg-color-dark: #1e1e1e;
+            --text-color-dark: #f5f5f5;
+            --card-bg-dark: #2c2c2c;
+            --button-bg-dark: #5f7fff;
+            --button-hover-dark: #3e54a3;
+        }
+
+        html[data-theme='light'] {
+            --bg-color: var(--bg-color-light);
+            --text-color: var(--text-color-light);
+            --card-bg: var(--card-bg-light);
+            --button-bg: var(--button-bg-light);
+            --button-hover: var(--button-hover-light);
+        }
+
+        html[data-theme='dark'] {
+            --bg-color: var(--bg-color-dark);
+            --text-color: var(--text-color-dark);
+            --card-bg: var(--card-bg-dark);
+            --button-bg: var(--button-bg-dark);
+            --button-hover: var(--button-hover-dark);
+        }
+
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #f0f2f5;
+            background: var(--bg-color);
+            color: var(--text-color);
             max-width: 800px;
             margin: auto;
             padding: 30px;
             text-align: center;
+            transition: background 0.3s, color 0.3s;
         }
 
         h1 {
             margin-bottom: 10px;
             font-size: 28px;
-            color: #333;
         }
 
         label {
@@ -25,7 +58,6 @@
             margin-top: 20px;
             font-weight: 600;
             text-align: left;
-            color: #444;
         }
 
         input[type="range"],
@@ -41,12 +73,12 @@
 
         .preview {
             margin-top: 40px;
-            background: white;
+            background: var(--card-bg);
             border-radius: 10px;
             padding: 20px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
+            transition: background 0.3s;
         }
 
         #boxPreview {
@@ -62,23 +94,45 @@
             margin-top: 10px;
             cursor: pointer;
             border: none;
-            background-color: #5f7fff;
+            background-color: var(--button-bg);
             color: white;
             border-radius: 6px;
             font-weight: 600;
-            transition: background 0.3s ease;
+            transition: background 0.3s;
         }
 
         button:hover {
-            background-color: #405dd5;
+            background-color: var(--button-hover);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topbar a {
+            font-size: 14px;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .toggle-theme {
+            background: none;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
         }
 
         footer {
             margin-top: 60px;
             padding: 40px 0;
-            text-align: center;
             font-size: 14px;
-            color: #555;
         }
 
         .bmc-button img {
@@ -94,7 +148,12 @@
 </head>
 
 <body>
-    <h1>Border Radius Generator</h1>
+    <div class="topbar">
+        <a href="../">← Back to Home</a>
+        <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+
+    <h1>🌀 Border Radius Generator</h1>
     <p>Adjust corners and generate CSS border-radius values</p>
 
     <label for="topLeft">Top Left Radius:</label>
@@ -149,10 +208,25 @@
             alert("Copied to clipboard!");
         }
 
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute("data-theme");
+            const next = current === "light" ? "dark" : "light";
+            html.setAttribute("data-theme", next);
+            localStorage.setItem("theme", next);
+        }
+
+        function initTheme() {
+            const saved = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+        }
+
         [topLeft, topRight, bottomRight, bottomLeft].forEach(input =>
             input.addEventListener("input", updateBorderRadius)
         );
 
+        initTheme();
         updateBorderRadius();
     </script>
 </body>

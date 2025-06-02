@@ -1,23 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Text Case Converter</title>
+    <meta name="description" content="Convert your text into different cases like camelCase, PascalCase, and more.">
+    <link rel="icon" type="image/png" href="../favicon.png" />
     <style>
+        :root {
+            --bg-light: #f0f2f5;
+            --text-light: #333;
+            --card-light: #fff;
+            --button-light: #5f7fff;
+            --button-hover-light: #405dd5;
+
+            --bg-dark: #1e1e1e;
+            --text-dark: #f5f5f5;
+            --card-dark: #2c2c2c;
+            --button-dark: #5f7fff;
+            --button-hover-dark: #3e54a3;
+        }
+
+        html[data-theme='light'] {
+            --bg: var(--bg-light);
+            --text: var(--text-light);
+            --card: var(--card-light);
+            --button: var(--button-light);
+            --button-hover: var(--button-hover-light);
+        }
+
+        html[data-theme='dark'] {
+            --bg: var(--bg-dark);
+            --text: var(--text-dark);
+            --card: var(--card-dark);
+            --button: var(--button-dark);
+            --button-hover: var(--button-hover-dark);
+        }
+
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #f0f2f5;
+            background: var(--bg);
+            color: var(--text);
             max-width: 800px;
             margin: auto;
             padding: 30px;
             text-align: center;
+            transition: background 0.3s, color 0.3s;
         }
 
         h1 {
             margin-bottom: 10px;
             font-size: 28px;
-            color: #333;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topbar a {
+            font-size: 14px;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .toggle-theme {
+            background: none;
+            border: 1px solid var(--text);
+            color: var(--text);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 14px;
+            cursor: pointer;
         }
 
         textarea {
@@ -45,7 +101,7 @@
             padding: 10px 16px;
             cursor: pointer;
             border: none;
-            background-color: #5f7fff;
+            background-color: var(--button);
             color: white;
             border-radius: 6px;
             font-weight: 600;
@@ -54,19 +110,24 @@
 
         .buttons button:hover,
         .copy-button:hover {
-            background-color: #405dd5;
+            background-color: var(--button-hover);
         }
 
         #output {
             margin-top: 30px;
             padding: 15px;
-            background: #fff;
+            background: var(--card);
             border: 1px solid #ccc;
             border-radius: 6px;
             font-family: monospace;
             font-size: 16px;
             text-align: left;
             white-space: pre-wrap;
+            transition: background 0.3s;
+        }
+
+        .copy-button {
+            margin-top: 16px;
         }
 
         footer {
@@ -74,7 +135,6 @@
             padding: 40px 0;
             text-align: center;
             font-size: 14px;
-            color: #555;
         }
 
         .bmc-button img {
@@ -86,15 +146,16 @@
         .bmc-button:hover img {
             transform: scale(1.05);
         }
-
-        .copy-button {
-            margin-top: 16px;
-        }
     </style>
 </head>
 
 <body>
-    <h1>Text Case Converter</h1>
+    <div class="topbar">
+        <a href="../">← Back to Home</a>
+        <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+
+    <h1>🔤 Text Case Converter</h1>
     <p>Convert your text into different cases instantly</p>
 
     <textarea id="inputText" placeholder="Type or paste your text here..."></textarea>
@@ -164,6 +225,22 @@
             document.body.removeChild(tempInput);
             alert("Converted text copied to clipboard!");
         }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute("data-theme");
+            const next = current === "light" ? "dark" : "light";
+            html.setAttribute("data-theme", next);
+            localStorage.setItem("theme", next);
+        }
+
+        function initTheme() {
+            const saved = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+        }
+
+        initTheme();
     </script>
 </body>
 

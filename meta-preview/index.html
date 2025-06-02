@@ -1,23 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <title>Meta Tag Preview Tool</title>
+    <meta name="description" content="Preview and generate SEO-friendly meta tags for your web pages.">
+    <link rel="icon" type="image/png" href="../favicon.png">
     <style>
+        :root {
+            --bg-color-light: #f0f2f5;
+            --text-color-light: #333;
+            --card-bg-light: #fff;
+            --button-bg-light: #5f7fff;
+            --button-hover-light: #405dd5;
+
+            --bg-color-dark: #1e1e1e;
+            --text-color-dark: #f5f5f5;
+            --card-bg-dark: #2c2c2c;
+            --button-bg-dark: #5f7fff;
+            --button-hover-dark: #3e54a3;
+        }
+
+        html[data-theme='light'] {
+            --bg-color: var(--bg-color-light);
+            --text-color: var(--text-color-light);
+            --card-bg: var(--card-bg-light);
+            --button-bg: var(--button-bg-light);
+            --button-hover: var(--button-hover-light);
+        }
+
+        html[data-theme='dark'] {
+            --bg-color: var(--bg-color-dark);
+            --text-color: var(--text-color-dark);
+            --card-bg: var(--card-bg-dark);
+            --button-bg: var(--button-bg-dark);
+            --button-hover: var(--button-hover-dark);
+        }
+
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: #f0f2f5;
+            background: var(--bg-color);
+            color: var(--text-color);
             max-width: 800px;
             margin: auto;
             padding: 30px;
-            text-align: center;
+            transition: background 0.3s, color 0.3s;
         }
 
         h1 {
             margin-bottom: 10px;
             font-size: 28px;
-            color: #333;
         }
 
         label {
@@ -25,7 +57,6 @@
             margin-top: 20px;
             font-weight: 600;
             text-align: left;
-            color: #444;
         }
 
         input,
@@ -41,12 +72,11 @@
 
         .preview {
             margin-top: 40px;
-            background: white;
+            background: var(--card-bg);
             border-radius: 10px;
             padding: 20px;
-            text-align: left;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
+            transition: background 0.3s;
         }
 
         .preview img {
@@ -60,12 +90,10 @@
         .preview h2 {
             font-size: 20px;
             margin-bottom: 8px;
-            color: #2c3e50;
         }
 
         .preview p {
             font-size: 16px;
-            color: #555;
         }
 
         button {
@@ -73,23 +101,45 @@
             margin-top: 10px;
             cursor: pointer;
             border: none;
-            background-color: #5f7fff;
+            background-color: var(--button-bg);
             color: white;
             border-radius: 6px;
             font-weight: 600;
-            transition: background 0.3s ease;
+            transition: background 0.3s;
         }
 
         button:hover {
-            background-color: #405dd5;
+            background-color: var(--button-hover);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .topbar a {
+            font-size: 14px;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .toggle-theme {
+            background: none;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 14px;
+            cursor: pointer;
         }
 
         footer {
             margin-top: 60px;
             padding: 40px 0;
-            text-align: center;
             font-size: 14px;
-            color: #555;
+            text-align: center;
         }
 
         .bmc-button img {
@@ -105,8 +155,12 @@
 </head>
 
 <body>
+    <div class="topbar">
+        <a href="../">← Back to Home</a>
+        <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
 
-    <h1>Meta Tag Preview Tool</h1>
+    <h1>🔍 Meta Tag Preview Tool</h1>
     <p>Preview how your page will look on search engines & social media</p>
 
     <label for="title">Title</label>
@@ -177,6 +231,23 @@
             document.execCommand("copy");
             alert("Meta tags copied to clipboard!");
         }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute("data-theme");
+            const next = current === "light" ? "dark" : "light";
+            html.setAttribute("data-theme", next);
+            localStorage.setItem("theme", next);
+        }
+
+        function initTheme() {
+            const saved = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+        }
+
+        initTheme();
+        updatePreview();
     </script>
 </body>
 
